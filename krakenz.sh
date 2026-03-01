@@ -35,7 +35,7 @@ get_sensor_data() {
 		."amdgpu-pci-2800"."mem"."temp3_input", 
 		."amdgpu-pci-2800"."junction"."temp2_input", 
 		."corsairpsu-hid-3-d"."power +12v"."power2_input"
-	)*100|round/100'
+	)*10|round/10'
 		
 }
 
