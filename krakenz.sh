@@ -69,7 +69,7 @@ update_sensors_image() {
 		-pointsize 30 \
 		-annotate +0+110  "GPUHot:${data[4]}" \
 		-pointsize 20 \
-		-annotate +0+135 "PSU12VR:${data[5]})W" /tmp/time.png
+		-annotate +0+135 "PSU12VR:${data[5]}W" /tmp/time.png
 	set_lcd_mode "static" "/tmp/time.png"
 }
 
