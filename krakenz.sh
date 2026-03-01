@@ -4,6 +4,7 @@ BRIGHTNESS=-1
 SPEED=()
 GIF=
 FONT="/usr/share/fonts/noto/NotoSans-ThinItalic.ttf"
+IMG_PATH="/tmp/time.png"
 CLOCK=
 MON=
 
@@ -44,13 +45,15 @@ update_clock_image() {
 		-font ${FONT} \
 		-tile gradient:blue-magenta \
 		-gravity center \
-		-pointsize 120 \
-		-annotate +0+0 "$(date +%H:%M)" /tmp/time.png
+		-pointsize 150 \
+		-annotate +0-70 "$(date +%H)" \
+		-pointsize 150 \
+		-annotate +0+70 "$(date +%M)" "${IMG_PATH}"
 	set_lcd_mode "static" "/tmp/time.png"
 }
 
 update_sensors_image() {
-	declare -a data 
+	declare -a data
 	readarray -t data < <(get_sensor_data)
 	magick 	-size 320x320 gradient:black-black \
 		-font ${FONT} \
@@ -69,7 +72,7 @@ update_sensors_image() {
 		-pointsize 30 \
 		-annotate +0+110  "GPUHot:${data[4]}" \
 		-pointsize 20 \
-		-annotate +0+135 "PSU12VR:${data[5]}W" /tmp/time.png
+		-annotate +0+135 "PSU12VR:${data[5]}W" "${IMG_PATH}"
 	set_lcd_mode "static" "/tmp/time.png"
 }
 
