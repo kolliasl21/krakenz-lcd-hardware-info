@@ -50,7 +50,7 @@ update_clock_image() {
 }
 
 update_sensors_image() {
-	local data
+	declare -a data 
 	readarray -t data < <(get_sensor_data)
 	magick 	-size 320x320 gradient:black-black \
 		-font ${FONT} \
