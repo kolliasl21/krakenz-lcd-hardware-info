@@ -2,9 +2,9 @@
 
 BRIGHTNESS=-1
 SPEED=()
-GIF=
-FONT="/usr/share/fonts/noto/NotoSans-ThinItalic.ttf"
+GIF="/path/to/file.gif"
 IMG_PATH="/tmp/time.png"
+FONT="/usr/share/fonts/noto/NotoSans-ThinItalic.ttf"
 CLOCK=
 MON=
 
@@ -14,7 +14,9 @@ print_usage() {
 		-b brightness:0-100%
 		-l liquid lcd mode
 		-g gif lcd mode
-		-s pump speed:0-100%,0-100C
+		-s pump speed
+		   dynamic: 0-100%,0-100C (in pairs seperated by ",")
+		   static : 0-100% (single value for static speed)
 		-c change .gif
 		-t clock mode
 		-m monitor mode
@@ -24,7 +26,6 @@ print_usage() {
 }
 
 set_lcd_mode() {
-	[[ -z $GIF ]] && echo "GIF not set!" && exit 1
 	liquidctl --match NZXT set lcd screen "$1" "$2"
 }
 
@@ -41,14 +42,16 @@ get_sensor_data() {
 }
 
 update_clock_image() {
+	local strtime
+	strtime="$(date +%H:%M)"
 	magick 	-size 320x320 gradient:black-black \
 		-font ${FONT} \
 		-tile gradient:blue-magenta \
 		-gravity center \
 		-pointsize 150 \
-		-annotate +0-70 "$(date +%H)" \
+		-annotate +0-70 "${strtime:0:2}" \
 		-pointsize 150 \
-		-annotate +0+70 "$(date +%M)" "${IMG_PATH}"
+		-annotate +0+70 "${strtime:3}" "${IMG_PATH}"
 	set_lcd_mode "static" "${IMG_PATH}"
 }
 
@@ -82,6 +85,8 @@ refresh_display() {
 		sleep "$2"
 	done
 }
+
+[[ -z $GIF ]] && echo "GIF not set!" && exit 1
 
 liquidctl initialize all > /dev/null 2>&1
 
