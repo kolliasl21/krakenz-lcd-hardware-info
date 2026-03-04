@@ -1,4 +1,4 @@
-# Display hardware info on NZXT Kraken Z63 liquid cooler
+# Display sensor data on NZXT Kraken Z63 liquid cooler
 
 - Display sensors
 - Display digital clock
